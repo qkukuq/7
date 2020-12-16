@@ -1,26 +1,45 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
+int strlen(char* str)
+{
+    int i = 0;
+    while (str[i] != '\n')
+        i++;
+    return i;
+}
 int main()
 {
 
-    int n, i;
+    int n, i = 0;
     setlocale(LC_ALL, "Russian");
     printf("Введите количество символов: ");
     scanf_s("%d", &n);
     if (n < 1) printf("Количество символов не может быть меньше единицы");
     else
     {
-        char* a = (char*)calloc(n, sizeof(char));
+        char* str = (char*)calloc(n, sizeof(char));
         rewind(stdin);
-        fgets(a, n, stdin);
-        printf("%c", a[0]);
-        for (i = 1; a[i] != '\0'; i++)
+        fgets(str, 255, stdin);
+
+        while (i < strlen(str))
         {
-            if ((a[i] != ' ') || ((a[i - 1] != ' ') && (a[i] == ' ')))
-                printf("%c", a[i]);
+            if (str[i] == ' ' && str[i + 1] == ' ')
+            {
+                for (int j = i; str[j] != '\0'; j++)
+                {
+                    str[j] = str[j + 1];
+
+                }
+
+                i--;
+            }
+            i++;
         }
-        free(a);
+
+        puts(str);
     }
+
     return 0;
+
 }
